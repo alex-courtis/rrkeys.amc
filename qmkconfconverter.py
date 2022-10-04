@@ -1,5 +1,47 @@
 from kmk.keys import KC
 
+qmk_kmk_map = {
+    "KC.BTN1": "KC.MB_LMB",
+    "KC.BTN2": "KC.MB_RMB",
+    "KC.BTN3": "KC.MB_MMB",
+    "KC.WH_U": "KC.MW_UP",
+    "KC.WH_D": "KC.MW_DOWN",
+    "KC.MS_L": "KC.MS_LEFT",
+    "KC.MS_R": "KC.MS_RIGHT",
+    "KC.MS_U": "KC.MS_UP",
+    "KC.MS_D": "KC.MS_DOWN",
+}
+
+def qmk_to_kmk(in_file):
+    #get layers from file
+    import json
+    f = open(in_file, "r")
+    data = json.load(f)
+    layers = data.get("layers")
+
+    content = "["
+
+    for layer in layers:
+        content += "["
+        for key in layer:
+            k = key.replace("_", ".", 1)
+
+            # check if it is number. (Not very save this)
+            if "KC" in k and k[3].isdigit():
+                k = k[:3] + "N" + k[3:] # insert an N
+            elif "MO(" in k:
+                k= "KC." + k
+            
+            if k in qmk_kmk_map:
+                k = qmk_kmk_map.get(k)
+
+            content += k + ","
+        content += "],"
+
+    content += "]"
+    return content
+
+
 def layer_converter(qmk_layer):
   layer = []
   # Assumes dactyl manuform 6x5 layout
@@ -37,54 +79,9 @@ def layer_converter(qmk_layer):
 
   return layer
 
+
 def layers_converter(qmk_layers):
   layers = []
   for qmk_layer in qmk_layers:
     layers.append(layer_converter(qmk_layer))
   return layers
-
-
-def qmk_to_kmk(in_file):
-    #get layers from file
-    import json
-    f = open(in_file, "r")
-    data = json.load(f)
-    layers = data.get("layers")
-
-    content = "["
-
-    for layer in layers:
-        content += "["
-        for key in layer:
-            k = key.replace("_", ".", 1)
-
-            # check if it is number. (Not very save this)
-            if "KC" in k and k[3].isdigit():
-                k = k[:3] + "N" + k[3:] # insert an N
-            elif "MO(" in k:
-                k= "KC." + k
-
-            if k == "KC.BTN1":
-                k = "KC.MB_LMB"
-            elif k == "KC.BTN2":
-                k = "KC.MB_RMB"
-            elif k == "KC.BTN3":
-                k = "KC.MB_MMB"
-            elif k == "KC.WH_U":
-                k = "KC.MW_UP"
-            elif k == "KC.WH_D":
-                k = "KC.MW_DOWN"
-            elif k == "KC.MS_L":
-                k = "KC.MS_LEFT"
-            elif k == "KC.MS_R":
-                k = "KC.MS_RIGHT"
-            elif k == "KC.MS_U":
-                k = "KC.MS_UP"
-            elif k == "KC.MS_D":
-                k = "KC.MS_DOWN"
-
-            content += k + ","
-        content += "],"
-
-    content += "]"
-    return content
