@@ -1,6 +1,4 @@
 # ---------------------------------------------------- Imports
-from ctypes import util
-from os import execve
 import board
 import json
 
@@ -13,11 +11,11 @@ from kmk.extensions.media_keys import MediaKeys
 from kmk.modules.mouse_keys import MouseKeys
 import qmkconfconverter as QC
 import default_config
-import utils
+from utils import get_first_json_file
 
 # ---------------------------------------------------- Keyboard setup
 keyboard = KMKKeyboard()
-keyboard.debug_enabled = True
+keyboard.debug_enabled = False
 keyboard.row_pins = (board.GP21, board.GP20, board.GP19, board.GP18, board.GP17, board.GP16)
 keyboard.col_pins = (board.GP15, board.GP14, board.GP13, board.GP12, board.GP11, board.GP10)
 keyboard.diode_orientation = DiodeOrientation.COLUMNS
@@ -44,8 +42,8 @@ keyboard.extensions.append(MediaKeys())
 keyboard.modules.append(MouseKeys())
 
 # ---------------------------------------------------- Load up keys configuration
-json_config = utils.get_first_json_file()
-str_data = QC.qmk_to_kmk(json_config) if json_config is not None else default_config.default_config
+json_config = get_first_json_file()
+str_data = QC.qmk_to_kmk(json_config) if json_config is not None else default_config.load()
 exec("layers = " + str_data)
 keyboard.keymap = QC.layers_converter(layers)
 

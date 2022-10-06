@@ -1,7 +1,11 @@
+def load():
+  return default_config.replace('\n', '').replace('\t', '').replace(' ', '')
+
+# Key codes listed here: https://github.com/KMKfw/kmk_firmware/blob/682731bfe130cad9bbf94117cacd59be0842a1af/docs/keycodes.md
 default_config = """
 [
   [
-    KC.ESC,  KC.1,    KC.2,   KC.3,     KC.4,    KC.5,       KC.6,    KC.7,   KC.8,     KC.9,    KC.0,    KC.BSPC,
+    KC.ESC,  KC.N1,   KC.N2,  KC.N3,    KC.N4,   KC.N5,      KC.N6,   KC.N7,  KC.N8,    KC.N9,   KC.N0,   KC.BSPC,
     KC.TAB,  KC.Q,    KC.W,   KC.E,     KC.R,    KC.T,       KC.Y,    KC.U,   KC.I,     KC.O,    KC.P,    KC.MINS,
     KC.LSFT, KC.A,    KC.S,   KC.D,     KC.F,    KC.G,       KC.H,    KC.J,   KC.K,     KC.L,    KC.SCLN, KC.QUOT,
     KC.LCTL, KC.Z,    KC.X,   KC.C,     KC.V,    KC.B,       KC.N,    KC.M,   KC.COMM,  KC.DOT,  KC.SLSH, KC.BSLS,
@@ -22,7 +26,7 @@ default_config = """
   ],
   [
     KC.F12,  KC.F1,   KC.F2,   KC.F3,   KC.F4,   KC.F5,     KC.F6,   KC.F7,   KC.F8,   KC.F9,   KC.F10,  KC.F11,
-    KC.TRNS, KC.TRNS, KC.TRNS, KC.TRNS, KC.TRNS, KC.LBRC,   KC.RBRC, KC.TRNS, KC.NUM,  KC.INS,  KC.SCRL, KC.MUTE,
+    KC.TRNS, KC.TRNS, KC.TRNS, KC.TRNS, KC.TRNS, KC.LBRC,   KC.RBRC, KC.TRNS, KC.NLCK, KC.INS,  KC.SLCK, KC.MUTE,
     KC.TRNS, KC.LEFT, KC.UP,   KC.DOWN, KC.RGHT, KC.LPRN,   KC.RPRN, KC.MPRV, KC.MPLY, KC.MNXT, KC.TRNS, KC.VOLU,
     KC.TRNS, KC.TRNS, KC.TRNS, KC.TRNS, KC.TRNS, KC.TRNS,   KC.TRNS, KC.TRNS, KC.TRNS, KC.TRNS, KC.TRNS, KC.VOLD,
              KC.TRNS, KC.TRNS,                                                         KC.EQL,  KC.TRNS,
