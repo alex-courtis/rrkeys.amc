@@ -1,3 +1,5 @@
+Compatible with version of circuit python: https://github.com/adafruit/circuitpython/releases/tag/7.3.2
+
 // Convert from this:
 //[
 //  00_KC.ESC,  01_KC.N1, 02_KC.N2, 03_KC.N3, 04_KC.N4, 05_KC.N5,            06_KC.N6,  07_KC.N7, 08_KC.N8,   09_KC.N9,  10_KC.N0,   11_KC.BSPC,
