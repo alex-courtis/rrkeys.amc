@@ -11,7 +11,7 @@ from kmk.extensions.media_keys import MediaKeys
 from kmk.modules.mouse_keys import MouseKeys
 import qmkconfconverter as QC
 import default_config
-from utils import get_first_json_file
+import utils
 
 # ---------------------------------------------------- Keyboard setup
 keyboard = KMKKeyboard()
@@ -42,9 +42,22 @@ keyboard.extensions.append(MediaKeys())
 keyboard.modules.append(MouseKeys())
 
 # ---------------------------------------------------- Load up keys configuration
-json_config = get_first_json_file()
+#json_config = utils.get_first_json_file()
+print('all files: ', utils.get_all_json_files())
+json_config = utils.get_most_recent_json_file()
+print("loading config: ", json_config)
 str_data = QC.qmk_to_kmk(json_config) if json_config is not None else default_config.load()
-exec("layers = " + str_data)
+layers = None
+try:
+    exec("layers = " + str_data)
+except Exception as e:
+    print("Failed to load configuration: ", e)
+    str_data = default_config.load()
+    exec("layers = " + str_data)
+    # TODO add bellow without remounting pico
+    #with open("errors", "w") as f:
+    #    f.write(str(e))
+
 keyboard.keymap = QC.layers_converter(layers)
 
 # ---------------------------------------------------- Main

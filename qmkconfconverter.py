@@ -1,43 +1,64 @@
 from kmk.keys import KC
+from qmkmapping import qmk_kmk_map, one_param_layers_starts
 
-qmk_kmk_map = {
-    "KC.BTN1": "KC.MB_LMB",
-    "KC.BTN2": "KC.MB_RMB",
-    "KC.BTN3": "KC.MB_MMB",
-    "KC.WH_U": "KC.MW_UP",
-    "KC.WH_D": "KC.MW_DOWN",
-    "KC.MS_L": "KC.MS_LEFT",
-    "KC.MS_R": "KC.MS_RIGHT",
-    "KC.MS_U": "KC.MS_UP",
-    "KC.MS_D": "KC.MS_DOWN",
-}
+def key_startswith(key, array):
+    for start in array:
+        if key.startswith(start):
+            return True
+    return False
+
+
+def lt_internal_finder(key, from_char, to_char):
+    key = key[:]
+    start = key.find(from_char)
+    if start == -1:
+        return "KC.NO"
+    end = key.rfind(to_char)
+    if end == -1:
+        return "KC.NO"
+    start += 1
+    return key[start:end].strip()
+
+
+def convert_lt_keycode(key):
+    layer = lt_internal_finder(key, "(", ",")
+    inner_kc = lt_internal_finder(key, ",", ")")
+
+    if layer == "KC.NO" or inner_kc == "KC.NO":
+        return "KC.NO"
+    if inner_kc not in qmk_kmk_map:
+        return "KC.NO"
+
+    inner_kc = qmk_kmk_map.get(inner_kc)
+    return "KC.LT(" + layer + "," + inner_kc + ")"
+
+
+def load_file(file):
+    import json
+    f = open(file, "r")
+    data = json.load(f)
+    return data.get("layers")
+
 
 def qmk_to_kmk(in_file):
-    #get layers from file
-    import json
-    f = open(in_file, "r")
-    data = json.load(f)
-    layers = data.get("layers")
+    layers = load_file(in_file)
 
     content = "["
-
     for layer in layers:
         content += "["
         for key in layer:
-            k = key.replace("_", ".", 1)
-
-            # check if it is number. (Not very save this)
-            if "KC" in k and k[3].isdigit():
-                k = k[:3] + "N" + k[3:] # insert an N
-            elif "MO(" in k:
-                k= "KC." + k
-            
-            if k in qmk_kmk_map:
-                k = qmk_kmk_map.get(k)
-
+            if key in qmk_kmk_map:
+                k = qmk_kmk_map.get(key)
+            elif key_startswith(key, one_param_layers_starts):
+                k = "KC." + key
+            elif key.startswith("LT("):
+                k = convert_lt_keycode(key)
+            elif key.startswith("KC_"):
+                k = key.replace("_", ".", 1) # hope for the best...
+            # TODO
+            #KC.LM(layer, mod)
             content += k + ","
         content += "],"
-
     content += "]"
     return content
 
