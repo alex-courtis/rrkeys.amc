@@ -1,3 +1,5 @@
+NO_HIDE = False
+
 import supervisor
 
 import board
@@ -18,10 +20,11 @@ row1.switch_to_input(pull=digitalio.Pull.DOWN)
 col2.switch_to_output(value=True)
 row2.switch_to_input(pull=digitalio.Pull.DOWN)
 
-if not (row1.value or row2.value):
-    storage.disable_usb_drive()
-    usb_cdc.disable()
-    usb_hid.enable(boot_device=1)
+if not NO_HIDE:
+    if not (row1.value or row2.value):
+        storage.disable_usb_drive()
+        usb_cdc.disable()
+        usb_hid.enable(boot_device=1)
 
 row1.deinit()
 col1.deinit()
