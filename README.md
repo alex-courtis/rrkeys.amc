@@ -1,6 +1,10 @@
 Compatible with version of circuit python: https://github.com/adafruit/circuitpython/releases/tag/7.3.2
 
- Convert from this:
+Kmk firmware: https://github.com/KMKfw/kmk_firmware
+
+For 5x6 dactyl project
+
+Convert from this (from QMK configurator):
 
 ```
 [
@@ -15,7 +19,7 @@ Compatible with version of circuit python: https://github.com/adafruit/circuitpy
 ],
 ```
 
- To This:
+To This (to KMK):
 
 ```
 [
