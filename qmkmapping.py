@@ -444,6 +444,13 @@ qmk_kmk_map = {
 
     "KC_MEDIA_REWIND": "KC.MRWD",
     "KC_MRWD": "KC.MRWD",
+
+#[Application]
+    "KC_COPY": "KC.LCTL(KC.C)",
+    "KC_CUT": "KC.LCTL(KC.X)",
+    "KC_PSTE": "KC.LCTL(KC.V)",
+    "KC_UNDO": "KC.LCTL(KC.Z)",
+    "KC_FIND": "KC.LCTL(KC.F)",
 }
 
 one_param_layers_starts = [
@@ -452,7 +459,9 @@ one_param_layers_starts = [
     "TG(",
     "TO(",
     "TT(",
+]
 
+one_param_ctrl_shift_alt_starts = [
     "LCTL(",
     "LSFT(",
     "LALT(",
@@ -462,4 +471,3 @@ one_param_layers_starts = [
     "RALT(",
     "RGUI(",
 ]
-

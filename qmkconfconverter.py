@@ -1,5 +1,5 @@
 from kmk.keys import KC
-from qmkmapping import qmk_kmk_map, one_param_layers_starts
+from qmkmapping import qmk_kmk_map, one_param_layers_starts, one_param_ctrl_shift_alt_starts
 
 def key_startswith(key, array):
     for start in array:
@@ -49,12 +49,23 @@ def qmk_to_kmk(in_file):
         for key in layer:
             if key in qmk_kmk_map:
                 k = qmk_kmk_map.get(key)
+
             elif key_startswith(key, one_param_layers_starts):
                 k = "KC." + key
+
+            elif key_startswith(key, one_param_ctrl_shift_alt_starts):
+                split = key.split("(")
+                key_main = "KC." + split[0] + "("
+                sub_key = split[1]
+                sub_key = sub_key[:-1]
+                k = key_main + qmk_kmk_map.get(sub_key) + ")"
+
             elif key.startswith("LT("):
                 k = convert_lt_keycode(key)
+
             elif key.startswith("KC_"):
                 k = key.replace("_", ".", 1) # hope for the best...
+
             # TODO
             #KC.LM(layer, mod)
             content += k + ","

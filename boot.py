@@ -1,4 +1,4 @@
-NO_HIDE = False
+NO_HIDE = True
 
 import supervisor
 
