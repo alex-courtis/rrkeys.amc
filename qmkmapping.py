@@ -301,9 +301,9 @@ qmk_kmk_map = {
     "KC_LABK": "KC.LABK",
     "KC_LT": "KC.LABK",
 
-    "KC_RIGHT_ANGLE_BRACKET": "KC.RABK>",
-    "KC_RABK": "KC.RABK>",
-    "KC_GT": "KC.RABK>",
+    "KC_RIGHT_ANGLE_BRACKET": "KC.RABK",
+    "KC_RABK": "KC.RABK",
+    "KC_GT": "KC.RABK",
 
     "KC_QUESTION": "KC.QUES",
     "KC_QUES": "KC.QUES",

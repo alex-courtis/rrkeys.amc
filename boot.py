@@ -1,4 +1,4 @@
-NO_HIDE = True
+HIDE = False
 
 import supervisor
 
@@ -20,7 +20,7 @@ row1.switch_to_input(pull=digitalio.Pull.DOWN)
 col2.switch_to_output(value=True)
 row2.switch_to_input(pull=digitalio.Pull.DOWN)
 
-if not NO_HIDE:
+if HIDE:
     if not (row1.value or row2.value):
         storage.disable_usb_drive()
         usb_cdc.disable()
